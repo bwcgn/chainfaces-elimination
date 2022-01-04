@@ -5,11 +5,14 @@
         <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-2">
                         <router-link to="/">HOME</router-link>
                     </div>
-                    <div class="col-3">
+                    <div class="col-2">
                         <router-link to="/eliminated">ELIMINATED PLAYERS</router-link>
+                    </div>
+                    <div class="col-2">
+                        <router-link to="/cowards">BIGGEST COWARD</router-link>
                     </div>
                 </div>
                 <div class="row mt-4">

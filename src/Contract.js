@@ -85,7 +85,32 @@ const api = {
         }
 
         return list;
-    }
+    },
+    async getBiggestCowards() {
+        let database = {};
+
+        let contract = this.Contract;
+
+            let tokenTransfers = await contract.getPastEvents('Transfer', {
+                filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
+                fromBlock: this.TournamentStart,
+                toBlock: 'latest'
+            });
+
+            tokenTransfers.forEach( (event) => {
+                let values = event.returnValues;
+
+                let from = values[0];
+                let to = values[1];
+                let tokenId = values[2];
+
+                if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
+                    database[tokenId] = to;
+                }
+
+            });
+        return database;
+    },
 }
 
 module.exports = api;
