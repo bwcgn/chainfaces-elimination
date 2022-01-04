@@ -9,9 +9,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(v, i) in eliminated" :key="i">
+                <tr v-for="v in findAllDeadPlayers" :key="v">
                     <td>{{ v }}</td>
-                    <td>{{ getOwned(v) }}</td>
+                    <td>{{ totalTokensByAddress(v) }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -19,35 +19,23 @@
 </template>
 
 <script>
-import Contract from "@/Contract";
-import web3 from "@/Web3.mjs";
+
+import {mapGetters} from "vuex";
 
 export default {
     data() {
         return {
-            account: null,
-            loading: true,
-            ownerDb: {},
-            memorial: {},
-            eliminated: [],
         }
     },
-    methods: {
-        getOwned(addr) {
-            return Contract.OwnerCount[addr];
-        },
-        getDeath(addr) {
-            return Contract.DeathCount[addr];
-        }
+    computed: {
+        ...mapGetters([
+            'owners',
+            'deadTokens',
+            'totalDeathsByAddress',
+            'totalTokensByAddress',
+            'getOwnerOfToken',
+            'findAllDeadPlayers'
+        ])
     },
-    components: {},
-    async mounted() {
-        Object.assign({}, this.memorial);
-        let accounts = await web3.eth.getAccounts();
-        this.account = accounts[0];
-        this.loading = await Contract.getTokenHolders();
-        this.memorial = await Contract.getMemorial();
-        this.eliminated = Contract.Eliminated;
-    }
 }
 </script>
