@@ -16,7 +16,21 @@ let store = new Vuex.Store({
       owners : state => {
           return state.ownerList
       },
-      deadTokens : state => state.memorialList,
+      deadTokens : (state,getters) => {
+          let list = [];
+          for (const tokenId in state.memorialList) {
+              list.push({
+                  tokenId : tokenId,
+                  owner: state.memorialList[tokenId],
+                  totalTokens : getters.totalTokensByAddress(state.memorialList[tokenId]),
+                  totalDeadTokens: getters.totalDeathsByAddress(state.memorialList[tokenId]),
+              });
+          }
+          list.sort(function (a,b) {
+              return b.totalDeadTokens - a.totalDeadTokens
+          })
+          return list;// [token] = address
+      },
       totalTokensByAddress: state => (id) => state.ownerCount[id],
       totalDeathsByAddress: state => (id) => state.deathCount[id],
       getOwnerOfToken: state => (id) => state.ownerList[id],
@@ -32,15 +46,24 @@ let store = new Vuex.Store({
       findAllDeadPlayers: (state,getters) => {
         let uniqueOwners = getters.uniqueOwners;
 
-        let list = {};
+        let list = [];
         for(const i in uniqueOwners) {
           let eth = uniqueOwners[i];
           if (getters.totalDeathsByAddress(eth) === getters.totalTokensByAddress(eth)) {
-            list[eth] = true;
+            list.push( {
+                address : eth,
+                count : parseInt(getters.totalTokensByAddress(eth))
+            })
           }
         }
 
-        return Object.keys(list);
+        console.log(list);
+
+        list.sort(function (a,b) {
+            return b.count - a.count
+        });
+
+        return list;
       },
       getBlockNumber : (state) => state.BlockNumber
   },

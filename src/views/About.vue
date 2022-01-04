@@ -9,9 +9,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="v in findAllDeadPlayers" :key="v">
-                    <td>{{ v }}</td>
-                    <td>{{ totalTokensByAddress(v) }}</td>
+                <tr v-for="v in findAllDeadPlayers" :key="v.address">
+                    <td>{{ v.address }}</td>
+                    <td>{{ v.count }}</td>
                 </tr>
                 </tbody>
             </table>

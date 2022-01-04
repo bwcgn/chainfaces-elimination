@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <h1>RIP TOKENS</h1>
+        <h1>BIGGEST LOSERS</h1>
         <table class="table">
             <thead>
             <tr>
@@ -9,12 +9,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(v, i) in deadTokens" :key="i"
-                :class="{'table-danger' : totalTokensByAddress(v) === totalDeathsByAddress(v) }">
+            <tr v-for="v in deadTokens" :key="v.tokenId"
+                :class="{'table-danger' : v.totalDeadTokens === v.totalTokens }">
 
-                <td>{{ i }}</td>
-                <td>{{ v }} ({{ totalDeathsByAddress(v) }} / {{ totalTokensByAddress(v) }}) <span
-                    v-if="totalDeathsByAddress(v) === totalDeathsByAddress(v)">💀</span></td>
+                <td>{{ v.tokenId }}</td>
+                <td>{{ v.owner }} ({{ v.totalDeadTokens }} / {{ v.totalTokens }}) <span
+                    v-if="v.totalDeadTokens === v.totalTokens">💀</span></td>
             </tr>
             </tbody>
         </table>
