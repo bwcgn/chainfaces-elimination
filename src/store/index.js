@@ -58,11 +58,13 @@ let store = new Vuex.Store({
           let list = [];
 
           let aliveTotal = 0;
-          for (const tokenId in state.memorialList) {
-            aliveTotal += getters.totalTokensByAddress(state.memorialList[tokenId]) 
-              - (!getters.totalDeathsByAddress(state.memorialList[tokenId]) ? 0 : getters.totalDeathsByAddress(state.memorialList[tokenId])) 
-              - (!getters.totalCowardsByAddress(state.memorialList[tokenId]) ? 0 : getters.totalCowardsByAddress(state.memorialList[tokenId]))
+          for (const i in users) {
+            let addr = users[i];
+            aliveTotal += (!getters.totalTokensByAddress(addr) ? 0 : getters.totalTokensByAddress(addr))
+              - (!getters.totalDeathsByAddress(addr) ? 0 : getters.totalDeathsByAddress(addr)) 
+              - (!getters.totalCowardsByAddress(addr) ? 0 : getters.totalCowardsByAddress(addr))
           }
+          console.log(aliveTotal);
 
           for (const i in users) {
               let addr = users[i];
