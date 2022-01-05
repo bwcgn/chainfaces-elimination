@@ -1,0 +1,45 @@
+<template>
+    <div class="home">
+        <h1>Leaders</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Original Owner</th>
+                <th scope="col">Total</th>
+                <th scope="col">Withdrawn</th>
+                <th scope="col">Dead</th>
+                <th scope="col">Alive</th>
+                <th scope="col">Chance Of Winning</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="v in getLeaderList" :key="v.owner">
+                <td>{{ v.owner }}</td>
+                <td>{{ v.totalTokens }}</td>
+                <td>{{ v.totalCowards }}</td>
+                <td>{{ v.totalDeaths }}</td>
+                <td>{{ v.totalAlive }}</td>
+                <td>{{ v.percentageOfAlive }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<script>
+import {mapGetters} from "vuex";
+
+
+export default {
+    name: 'Home',
+    data() {
+        return {
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'getLeaderList'
+        ])
+    },
+}
+</script>

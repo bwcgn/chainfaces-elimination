@@ -52,6 +52,39 @@ let store = new Vuex.Store({
           })
           return list;// [] = {}}
       },
+      getLeaderList: (state, getters) => {
+          let users = getters.uniqueOwners;
+
+          let list = [];
+
+          let aliveTotal = 0;
+          for (const tokenId in state.memorialList) {
+            aliveTotal += getters.totalTokensByAddress(state.memorialList[tokenId]) 
+              - (!getters.totalDeathsByAddress(state.memorialList[tokenId]) ? 0 : getters.totalDeathsByAddress(state.memorialList[tokenId])) 
+              - (!getters.totalCowardsByAddress(state.memorialList[tokenId]) ? 0 : getters.totalCowardsByAddress(state.memorialList[tokenId]))
+          }
+
+          for (const i in users) {
+              let addr = users[i];
+              let total = getters.totalTokensByAddress(addr);
+              let cowards = (!getters.totalCowardsByAddress(addr) ? 0 : getters.totalCowardsByAddress(addr));
+              let deaths = (!getters.totalDeathsByAddress(addr) ? 0 : getters.totalDeathsByAddress(addr));
+              let alive = total - cowards - deaths;
+              list.push({
+                  owner: addr,
+                  totalTokens : total,
+                  totalCowards: cowards,
+                  totalDeaths: deaths,
+                  totalAlive: alive,
+                  percentageOfAlive: ((alive / aliveTotal) * 100).toFixed(4) + '%'
+              });
+          }
+
+          list.sort(function (a,b) {
+              return b.totalAlive - a.totalAlive
+          })
+          return list;// [] = {}}
+      },
       totalTokensByAddress: state => (id) => state.ownerCount[id],
       totalDeathsByAddress: state => (id) => state.deathCount[id],
       totalCowardsByAddress: state => (id) => state.cowardCount[id],
