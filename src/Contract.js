@@ -57,7 +57,7 @@ const api = {
 
         return database;
     },
-    getCount(db) {
+    async getCount(db) {
         let count = {};
 
         for (const i in db) {
@@ -107,29 +107,6 @@ const api = {
                 if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
                     database[tokenId] = to;
                 }
-
-            });
-        return database;
-    },
-    async getBiggestWarriors() {
-        let database = {};
-
-        let contract = this.Contract;
-
-            let tokenTransfers = await contract.getPastEvents('Transfer', {
-                filter: { to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
-                fromBlock: this.OriginBlock,
-                toBlock: this.TournamentStart
-            });
-
-            tokenTransfers.forEach( (event) => {
-                let values = event.returnValues;
-
-                let from = values[0];
-                let to = values[1];
-                let tokenId = values[2];
-
-                database[tokenId] = from;
 
             });
         return database;
