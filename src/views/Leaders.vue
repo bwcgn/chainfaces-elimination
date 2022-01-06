@@ -9,7 +9,6 @@
                 <th scope="col">Withdrawn</th>
                 <th scope="col">Dead</th>
                 <th scope="col">Alive</th>
-                <th scope="col">Chance Of Winning</th>
             </tr>
             </thead>
             <tbody>
@@ -19,7 +18,6 @@
                 <td>{{ v.totalCowards }}</td>
                 <td>{{ v.totalDeaths }}</td>
                 <td>{{ v.totalAlive }}</td>
-                <td>{{ v.percentageOfAlive }}</td>
             </tr>
             </tbody>
         </table>
