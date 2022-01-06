@@ -11,7 +11,6 @@ let store = new Vuex.Store({
     ownerCount : json.ownerCount,
     deathCount : json.deathCount,
     BlockNumber : json.blockNumber,
-    // warriorList : json.warriors,
     cowardList : json.cowards,
     cowardCount : json.cowardCount,
   },
