@@ -57,7 +57,7 @@ const api = {
 
         return database;
     },
-    async getCount(db) {
+    getCount(db) {
         let count = {};
 
         for (const i in db) {
