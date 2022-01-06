@@ -111,6 +111,29 @@ const api = {
             });
         return database;
     },
+    async getBiggestWarriors() {
+        let database = {};
+
+        let contract = this.Contract;
+
+            let tokenTransfers = await contract.getPastEvents('Transfer', {
+                filter: { to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
+                fromBlock: this.OriginBlock,
+                toBlock: this.TournamentStart
+            });
+
+            tokenTransfers.forEach( (event) => {
+                let values = event.returnValues;
+
+                let from = values[0];
+                let to = values[1];
+                let tokenId = values[2];
+
+                database[tokenId] = from;
+
+            });
+        return database;
+    },
 }
 
 module.exports = api;
