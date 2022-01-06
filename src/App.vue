@@ -9,6 +9,9 @@
                         <router-link to="/">HOME</router-link>
                     </div>
                     <div class="col-2">
+                        <router-link to="/leaders">LEADERS</router-link>
+                    </div>
+                    <div class="col-2">
                         <router-link to="/eliminated">ELIMINATED PLAYERS</router-link>
                     </div>
                     <div class="col-2">
@@ -16,7 +19,7 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-6">
+                    <div class="col-8">
                     <router-view/>
                     </div>
                 </div>

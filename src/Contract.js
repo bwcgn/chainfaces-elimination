@@ -57,6 +57,42 @@ const api = {
 
         return database;
     },
+    async getBiggestWarriors() {
+        let database = {};
+
+        let contract = this.Contract;
+
+        let increment = 100;
+        let start = this.OriginBlock;
+
+        do {
+            if (start+increment > this.TournamentStart) {
+                increment = this.TournamentStart - start;
+            }
+            console.log(`xreading from ${start+increment} to ${this.TournamentStart}`);
+
+            let tokenTransfers = await contract.getPastEvents('Transfer', {
+                filter: {to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
+                fromBlock: start+1,
+                toBlock: start+increment
+            });
+
+            tokenTransfers.forEach( (event) => {
+                let values = event.returnValues;
+
+                let from = values[0];
+                let to = values[1];
+                let tokenId = values[2];
+
+                database[tokenId] = from;
+            })
+
+            start += increment;
+
+        } while(start + increment < this.TournamentStart);
+
+        return database;
+    },
     getCount(db) {
         let count = {};
 

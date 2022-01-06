@@ -11,8 +11,9 @@ let store = new Vuex.Store({
     ownerCount : json.ownerCount,
     deathCount : json.deathCount,
     BlockNumber : json.blockNumber,
-      cowardList : json.cowards,
-      cowardCount : json.cowardCount,
+    warriorList : json.warriors,
+    cowardList : json.cowards,
+    cowardCount : json.cowardCount,
   },
   getters: {
       owners : state => {
@@ -49,6 +50,53 @@ let store = new Vuex.Store({
 
           list.sort(function (a,b) {
               return b.totalCowards - a.totalCowards
+          })
+          return list;// [] = {}}
+      },
+      getLeaderList: (state, getters) => {
+        let users = getters.uniqueOwners;
+        let users2 = getters.uniqueOwners;
+
+          let usersEnteredArenaTokens = {};
+          for (const tokenId in state.warriorList) {
+              if(usersEnteredArenaTokens[state.warriorList[tokenId]] == null){
+                usersEnteredArenaTokens[state.warriorList[tokenId]] = 0;
+              }
+              usersEnteredArenaTokens[state.warriorList[tokenId]]++;
+          }
+          console.log(usersEnteredArenaTokens);
+          let list = [];
+
+          let aliveTotal = 0;
+
+          for (const i in users) {
+              let addr = users[i];
+              let totalEntered = !usersEnteredArenaTokens[addr] ? 0 : usersEnteredArenaTokens[addr];
+              let cowards = (!getters.totalCowardsByAddress(addr) ? 0 : getters.totalCowardsByAddress(addr));
+              let deaths = (!getters.totalDeathsByAddress(addr) ? 0 : getters.totalDeathsByAddress(addr));
+              let alive = totalEntered - cowards - deaths;
+              aliveTotal += alive;
+          }
+          for (const i in users2) {
+              let addr = users[i];
+              let totalEntered = !usersEnteredArenaTokens[addr] ? 0 : usersEnteredArenaTokens[addr];
+              let total = getters.totalTokensByAddress(addr);
+              let cowards = (!getters.totalCowardsByAddress(addr) ? 0 : getters.totalCowardsByAddress(addr));
+              let deaths = (!getters.totalDeathsByAddress(addr) ? 0 : getters.totalDeathsByAddress(addr));
+              let alive = totalEntered - cowards - deaths;
+              list.push({
+                  owner: addr,
+                  totalTokens: total,
+                  totalEntered: totalEntered,
+                  totalCowards: cowards,
+                  totalDeaths: deaths,
+                  totalAlive: alive,
+                  percentageOfAlive: ((alive / aliveTotal) * 100).toFixed(4) + '%'
+              });
+          }
+
+          list.sort(function (a,b) {
+              return b.totalAlive - a.totalAlive
           })
           return list;// [] = {}}
       },
