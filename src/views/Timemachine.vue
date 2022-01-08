@@ -7,7 +7,10 @@
             <div class="col-2"><button class="btn btn-primary" @click="fetch">TIME-MACHINE</button></div>
         </div>
         <div class="row">
-            <div class="col-6" v-html="svg"></div>
+            <div class="col-6">
+                <img src="@/assets/TimeMachine.gif" class="img" v-if="loading" />
+                <div v-html="svg" v-if="toggle"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -18,11 +21,21 @@ export default {
         return {
             tokenId: null,
             svg: null,
-            contract: null
+            contract: null,
+            toggle: false,
+            loading: false,
         }
     },
     methods: {
         async fetch() {
+            this.loading = true;
+            this.toggle = false;
+
+            setTimeout( () => {
+                this.loading = false;
+                this.toggle = true;
+            }, 10000);
+
             this.svg = await this.$store.dispatch("getSvg", this.tokenId);
         }
     },
