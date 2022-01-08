@@ -43,6 +43,9 @@ export default {
         ...mapGetters([
             'getBlockNumber'
         ])
+    },
+    async mounted() {
+        await this.$store.dispatch('getWeb3');
     }
 }
 </script>

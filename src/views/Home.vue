@@ -1,11 +1,14 @@
 <template>
     <div class="home">
         <h1>BIGGEST LOSERS</h1>
+        <div class="col-10">
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Token Id</th>
-                <th scope="col">Original Owner</th>
+                <th scope="col">Dead Token Id</th>
+                <th scope="col">Owner</th>
+                <th>Owners Total Deaths</th>
+                <th>Total Alive</th>
             </tr>
             </thead>
             <tbody>
@@ -13,11 +16,15 @@
                 :class="{'table-danger' : v.totalDeadTokens === v.totalTokens }">
 
                 <td>{{ v.tokenId }}</td>
-                <td>{{ v.owner }} ({{ v.totalDeadTokens }} / {{ v.totalTokens }}) <span
-                    v-if="v.totalDeadTokens === v.totalTokens">💀</span></td>
+                <td>{{ v.owner }}
+                    <span v-if="v.totalDeadTokens === v.totalTokens">💀</span>
+                </td>
+                <td>{{ v.totalDeadTokens }}</td>
+                <td>{{ v.totalTokens }}</td>
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </template>
 

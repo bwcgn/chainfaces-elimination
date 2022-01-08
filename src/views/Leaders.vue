@@ -4,6 +4,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>Rank</th>
                 <th scope="col">Original Owner</th>
                 <th scope="col">Total Tokens</th>
                 <th scope="col">Total Entered</th>
@@ -14,7 +15,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="v in getLeaderList" :key="v.owner">
+            <tr v-for="v, i in getLeaderList" :key="v.owner">
+                <td>{{ i + 1 }}</td>
                 <td>{{ v.owner }}</td>
                 <td>{{ v.totalTokens }}</td>
                 <td>{{ v.totalEntered }}</td>

@@ -5,6 +5,7 @@ import About from "@/views/About";
 import Leaders from "@/views/Leaders";
 import Cowards from "@/views/Cowards";
 import Timemachine from "@/views/Timemachine";
+import Wallet from "@/views/Wallet";
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     name: 'Timemachine',
     component: Timemachine
   },
+  {
+    path: '/wallet',
+    name: 'Wallet',
+    component: Wallet
+  }
 ]
 
 const router = new VueRouter({
