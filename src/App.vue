@@ -1,25 +1,35 @@
 <template>
     <div id="app">
-        <h1>CHAIN FACE LEADERBOARD by @geggleto</h1>
-        <h3>FROM BLOCK {{ getBlockNumber }}</h3>
-        <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">CFA Leaderboard</a>
 
-                <div class="row">
-                    <div class="col-2">
-                        <router-link to="/">HOME</router-link>
-                    </div>
-                    <div class="col-2">
-                        <router-link to="/leaders">LEADERS</router-link>
-                    </div>
-                    <div class="col-2">
-                        <router-link to="/eliminated">ELIMINATED PLAYERS</router-link>
-                    </div>
-                    <div class="col-2">
-                        <router-link to="/cowards">BIGGEST COWARD</router-link>
-                    </div>
-                </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/">HOME</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/leaders">LEADERS</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/eliminated">ELIMATED</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/cowards">COWARDS</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/timemachine">TIME MACHINE</router-link>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
                 <div class="row mt-4">
-                    <div class="col-8">
+                    <div class="col-7 offset-1">
                     <router-view/>
                     </div>
                     <div class="col-4">
@@ -27,7 +37,6 @@
                         by <a href="https://twitter.com/tyandrykowski" target="_blank">@tyandrykowski</a>
                     </div>
                 </div>
-                
         </div>
     </div>
 </template>
