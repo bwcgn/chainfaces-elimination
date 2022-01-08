@@ -22,7 +22,12 @@
                     <div class="col-8">
                     <router-view/>
                     </div>
+                    <div class="col-4">
+                        <img src="@/assets/arena.gif" class="img">
+                        by <a href="https://twitter.com/tyandrykowski" target="_blank">@tyandrykowski</a>
+                    </div>
                 </div>
+                
         </div>
     </div>
 </template>
