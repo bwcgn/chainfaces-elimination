@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import About from "@/views/About";
 import Leaders from "@/views/Leaders";
 import Cowards from "@/views/Cowards";
+import Timemachine from "@/views/Timemachine";
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/cowards',
     name: 'Coward',
     component: Cowards
+  },
+  {
+    path: '/timemachine',
+    name: 'Timemachine',
+    component: Timemachine
   },
 ]
 
