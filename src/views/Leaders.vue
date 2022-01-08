@@ -17,7 +17,7 @@
             <tbody>
             <tr v-for="v, i in getLeaderList" :key="v.owner">
                 <td>{{ i + 1 }}</td>
-                <td>{{ v.owner }}</td>
+                <td><a :href="getLink(v)" target="_blank">{{ v.owner }}</a></td>
                 <td>{{ v.totalTokens }}</td>
                 <td>{{ v.totalEntered }}</td>
                 <td>{{ v.totalCowards }}</td>
@@ -38,6 +38,11 @@ export default {
     name: 'Home',
     data() {
         return {
+        }
+    },
+    methods: {
+        getLink(v) {
+            return 'https://chainfacesarena.com/#/arena/'+v.owner;
         }
     },
     computed: {
