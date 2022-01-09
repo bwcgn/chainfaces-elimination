@@ -31,7 +31,7 @@ const api = {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`reading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`token hodlers reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {},
@@ -62,14 +62,14 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 100;
+        let increment = 50;
         let start = this.OriginBlock;
 
         do {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`xreading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`biggest warriors reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
