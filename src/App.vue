@@ -26,6 +26,9 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/golf-score">GOLF SCORES</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/arena-score">ARENA SCORES</router-link>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -35,7 +38,7 @@
                     <div class="col-7 offset-1">
                     <router-view/>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 small_screen_hidden">
                         <img src="@/assets/arena.gif" class="img">
                         by <a href="https://twitter.com/tyandrykowski" target="_blank">@tyandrykowski</a>
                     </div>
