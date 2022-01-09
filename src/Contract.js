@@ -24,7 +24,7 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 10;
+        let increment = 100;
         let start = this.OriginBlock;
 
         do {
@@ -62,13 +62,14 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 50;
+        let increment = 100;
         let start = this.OriginBlock;
 
         do {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
+
             console.log(`biggest warriors reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
@@ -90,6 +91,45 @@ const api = {
             start += increment;
 
         } while(start + increment < this.TournamentStart);
+
+        return database;
+    },
+    async getBiggestCowards() {
+        let database = {};
+
+        let contract = this.Contract;
+        let currentBlock = await this.getBlockNumber();
+        let increment = 100;
+        let start = this.TournamentStart-1;
+
+        do {
+            if (start+increment > currentBlock) {
+                increment = currentBlock - start;
+            }
+            console.log(`biggest cowards reading from ${start+increment} to ${currentBlock}`);
+
+            let tokenTransfers = await contract.getPastEvents('Transfer', {
+                filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
+                fromBlock: start+1,
+                toBlock: start+increment
+            });
+
+            tokenTransfers.forEach( (event) => {
+                let values = event.returnValues;
+
+                let from = values[0];
+                let to = values[1];
+                let tokenId = values[2];
+
+                if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
+                    database[tokenId] = to;
+                }
+
+            });
+
+            start += increment;
+
+        } while(start + increment < currentBlock);
 
         return database;
     },
@@ -121,31 +161,6 @@ const api = {
         }
 
         return list;
-    },
-    async getBiggestCowards() {
-        let database = {};
-
-        let contract = this.Contract;
-
-            let tokenTransfers = await contract.getPastEvents('Transfer', {
-                filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
-                fromBlock: this.TournamentStart,
-                toBlock: 'latest'
-            });
-
-            tokenTransfers.forEach( (event) => {
-                let values = event.returnValues;
-
-                let from = values[0];
-                let to = values[1];
-                let tokenId = values[2];
-
-                if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
-                    database[tokenId] = to;
-                }
-
-            });
-        return database;
     },
 }
 

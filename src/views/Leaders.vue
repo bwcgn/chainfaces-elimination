@@ -5,13 +5,14 @@
             <thead>
             <tr>
                 <th>Rank</th>
-                <th scope="col">Original Owner</th>
-                <th scope="col">Total Tokens</th>
-                <th scope="col">Total Entered</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Total</th>
+                <th scope="col">Entered</th>
                 <th scope="col">Withdrawn</th>
                 <th scope="col">Dead</th>
                 <th scope="col">Alive</th>
-                <th scope="col">Chance Of Winning</th>
+                <th scope="col">% Dead</th>
+                <th scope="col">% of Pool</th>
             </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                 <td>{{ v.totalCowards }}</td>
                 <td>{{ v.totalDeaths }}</td>
                 <td>{{ v.totalAlive }}</td>
+                <td>{{ v.percentageDead }}</td>
                 <td>{{ v.percentageOfAlive }}</td>
             </tr>
             </tbody>
