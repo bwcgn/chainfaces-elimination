@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <h1>GOLF SCORES</h1>
+        <h1>Symbol Counts</h1>
         <div class="row">
             <canvas id="myChart"></canvas>
         </div>
@@ -9,9 +9,9 @@
 
 <script>
 
-import arenaScores from "../store/data/golfScores.json";
-const scoreData = arenaScores.map((d) => [d.score, d.count]);
-
+import symbolCounts from "../store/data/symbolCounts.json";
+const scoreData = symbolCounts.map((d) => [d.score, d.count]);
+scoreData.sort((a,b)=>a[1]-b[1]);
 const labels = [];
 const dataset = [];
 
@@ -25,7 +25,7 @@ for (let i in scoreData) {
 const data = {
     labels: labels,
     datasets: [{
-        label: 'Total Supply',
+        label: 'Symbol Counts',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: dataset,
@@ -35,7 +35,18 @@ const data = {
 const config = {
     type: 'bar',
     data: data,
-    options: {}
+    options: {
+        scales: {
+        x: {
+            ticks: {
+                autoSkip: false,
+                font: {
+                    size: 14,
+                }
+            }
+        }
+    }
+    }
 };
 
 export default {
