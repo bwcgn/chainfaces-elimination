@@ -24,14 +24,14 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 100;
+        let increment = 10;
         let start = this.OriginBlock;
 
         do {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`getTokenHolders reading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`token hodlers reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {},
@@ -62,14 +62,15 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 100;
+        let increment = 50;
         let start = this.OriginBlock;
 
         do {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`getBiggestWarriors reading from ${start+increment} to ${this.TournamentStart}`);
+
+            console.log(`biggest warriors reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
@@ -105,7 +106,7 @@ const api = {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`getBiggestCowards reading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`biggest cowards reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
@@ -161,31 +162,6 @@ const api = {
 
         return list;
     },
-    // async getBiggestCowards() {
-    //     let database = {};
-
-    //     let contract = this.Contract;
-
-    //         let tokenTransfers = await contract.getPastEvents('Transfer', {
-    //             filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
-    //             fromBlock: this.TournamentStart,
-    //             toBlock: 'latest'
-    //         });
-
-    //         tokenTransfers.forEach( (event) => {
-    //             let values = event.returnValues;
-
-    //             let from = values[0];
-    //             let to = values[1];
-    //             let tokenId = values[2];
-
-    //             if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
-    //                 database[tokenId] = to;
-    //             }
-
-    //         });
-    //     return database;
-    // },
 }
 
 module.exports = api;
