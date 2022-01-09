@@ -40,6 +40,8 @@ const config = {
         x: {
             ticks: {
                 autoSkip: false,
+                maxRotation: 0,
+                minRotation: 0,
                 font: {
                     size: 14,
                 }
