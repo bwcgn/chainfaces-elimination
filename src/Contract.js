@@ -24,7 +24,7 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 10;
+        let increment = 100;
         let start = this.OriginBlock;
 
         do {
@@ -62,7 +62,7 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 50;
+        let increment = 100;
         let start = this.OriginBlock;
 
         do {
@@ -98,15 +98,15 @@ const api = {
         let database = {};
 
         let contract = this.Contract;
-
+        let currentBlock = await this.getBlockNumber();
         let increment = 100;
-        let start = this.TournamentStart;
+        let start = this.TournamentStart-1;
 
         do {
-            if (start+increment > this.TournamentStart) {
-                increment = this.TournamentStart - start;
+            if (start+increment > currentBlock) {
+                increment = currentBlock - start;
             }
-            console.log(`biggest cowards reading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`biggest cowards reading from ${start+increment} to ${currentBlock}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
@@ -129,7 +129,7 @@ const api = {
 
             start += increment;
 
-        } while(start + increment < this.TournamentStart);
+        } while(start + increment < currentBlock);
 
         return database;
     },

@@ -570,7 +570,7 @@ let store = new Vuex.Store({
                     totalCowards: cowards,
                     totalDeaths: deaths,
                     totalAlive: alive,
-                    percentageDead: ((deaths / totalEntered) * 100).toFixed(1) + '%',
+                    percentageDead: ((deaths / (totalEntered-cowards)) * 100).toFixed(1) + '%',
                     percentageOfAlive: ((alive / aliveTotal) * 100).toFixed(4) + '%'
                 });
             }
