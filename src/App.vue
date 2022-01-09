@@ -23,6 +23,9 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/timemachine">TIME MACHINE</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/golf-score">GOLF SCORES</router-link>
+                    </li>
                 </ul>
             </div>
         </nav>

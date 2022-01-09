@@ -7,11 +7,15 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@fast-csv/parse": "^4.3.6",
     "@metamask/detect-provider": "^1.2.0",
+    "chart.js": "^3.7.0",
+    "csv-parser": "^3.0.0",
     "csv-writer": "^1.6.0",
     "dotenv": "^10.0.0",
     "nprogress": "^0.2.0",
     "vue": "^2.6.11",
+    "vue-chartjs": "^3.5.1",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0",
     "web3": "^1.6.1"

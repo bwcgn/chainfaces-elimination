@@ -7,6 +7,7 @@ import Cowards from "@/views/Cowards";
 import Timemachine from "@/views/Timemachine";
 import Wallet from "@/views/Wallet";
 import npgoress from 'nprogress';
+import GolfScore from "@/views/GolfScore";
 
 Vue.use(VueRouter)
 
@@ -37,9 +38,9 @@ const routes = [
     component: Timemachine
   },
   {
-    path: '/wallet',
-    name: 'Wallet',
-    component: Wallet
+    path: '/golf-score',
+    name: 'GolfScores',
+    component: GolfScore
   }
 ]
 
