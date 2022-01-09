@@ -9,6 +9,7 @@ import Wallet from "@/views/Wallet";
 import npgoress from 'nprogress';
 import GolfScore from "@/views/GolfScore";
 import ArenaScore from "@/views/ArenaScore";
+import ScarSupply from "@/views/ScarSupply";
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,11 @@ const routes = [
     path: '/arena-score',
     name: 'ArenaScores',
     component: ArenaScore
+  },
+  {
+    path: '/scar-supply',
+    name: 'ScarSupply',
+    component: ScarSupply
   }
 ]
 

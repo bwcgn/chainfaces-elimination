@@ -29,6 +29,9 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/arena-score">ARENA SCORES</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/scar-supply">SCAR SUPPLY</router-link>
+                    </li>
                 </ul>
             </div>
         </nav>

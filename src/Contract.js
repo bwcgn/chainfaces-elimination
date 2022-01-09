@@ -31,7 +31,7 @@ const api = {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`reading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`getTokenHolders reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {},
@@ -69,7 +69,7 @@ const api = {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`xreading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`getBiggestWarriors reading from ${start+increment} to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
@@ -86,6 +86,45 @@ const api = {
 
                 database[tokenId] = from;
             })
+
+            start += increment;
+
+        } while(start + increment < this.TournamentStart);
+
+        return database;
+    },
+    async getBiggestCowards() {
+        let database = {};
+
+        let contract = this.Contract;
+
+        let increment = 100;
+        let start = this.TournamentStart;
+
+        do {
+            if (start+increment > this.TournamentStart) {
+                increment = this.TournamentStart - start;
+            }
+            console.log(`getBiggestCowards reading from ${start+increment} to ${this.TournamentStart}`);
+
+            let tokenTransfers = await contract.getPastEvents('Transfer', {
+                filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
+                fromBlock: start+1,
+                toBlock: start+increment
+            });
+
+            tokenTransfers.forEach( (event) => {
+                let values = event.returnValues;
+
+                let from = values[0];
+                let to = values[1];
+                let tokenId = values[2];
+
+                if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
+                    database[tokenId] = to;
+                }
+
+            });
 
             start += increment;
 
@@ -122,31 +161,31 @@ const api = {
 
         return list;
     },
-    async getBiggestCowards() {
-        let database = {};
+    // async getBiggestCowards() {
+    //     let database = {};
 
-        let contract = this.Contract;
+    //     let contract = this.Contract;
 
-            let tokenTransfers = await contract.getPastEvents('Transfer', {
-                filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
-                fromBlock: this.TournamentStart,
-                toBlock: 'latest'
-            });
+    //         let tokenTransfers = await contract.getPastEvents('Transfer', {
+    //             filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
+    //             fromBlock: this.TournamentStart,
+    //             toBlock: 'latest'
+    //         });
 
-            tokenTransfers.forEach( (event) => {
-                let values = event.returnValues;
+    //         tokenTransfers.forEach( (event) => {
+    //             let values = event.returnValues;
 
-                let from = values[0];
-                let to = values[1];
-                let tokenId = values[2];
+    //             let from = values[0];
+    //             let to = values[1];
+    //             let tokenId = values[2];
 
-                if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
-                    database[tokenId] = to;
-                }
+    //             if (to !== '0x7039D65E346FDEEBbc72514D718C88699c74ba4b') {
+    //                 database[tokenId] = to;
+    //             }
 
-            });
-        return database;
-    },
+    //         });
+    //     return database;
+    // },
 }
 
 module.exports = api;
