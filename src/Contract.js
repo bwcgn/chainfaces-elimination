@@ -24,7 +24,7 @@ const api = {
 
         let contract = this.Contract;
 
-        let increment = 50;
+        let increment = 10;
         let start = this.OriginBlock;
 
         do {
