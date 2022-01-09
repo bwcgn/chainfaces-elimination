@@ -10,6 +10,7 @@ import npgoress from 'nprogress';
 import GolfScore from "@/views/GolfScore";
 import ArenaScore from "@/views/ArenaScore";
 import ScarSupply from "@/views/ScarSupply";
+import SymbolCounts from "@/views/SymbolCounts";
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,11 @@ const routes = [
     path: '/scar-supply',
     name: 'ScarSupply',
     component: ScarSupply
+  },
+  {
+    path: '/symbols',
+    name: 'SymbolCounts',
+    component: SymbolCounts
   }
 ]
 

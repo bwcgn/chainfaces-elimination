@@ -32,18 +32,21 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/scar-supply">SCAR SUPPLY</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/symbols">SYMBOLS</router-link>
+                    </li>
                 </ul>
             </div>
         </nav>
 
         <div class="container-fluid">
                 <div class="row mt-4">
-                    <div class="col-8">
+                    <div class="col-10">
                     <router-view/>
                     </div>
-                    <div class="col-4 small_screen_hidden">
+                    <div class="col-2 small_screen_hidden">
                         <div class="float_right">
-                            <img src="@/assets/arena.gif" class="img" width="400px;">
+                            <img src="@/assets/arena.gif" class="img" width="200px;">
                             <br>
                             by <a href="https://twitter.com/tyandrykowski" target="_blank">@tyandrykowski</a>
                         </div>
