@@ -3,10 +3,10 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">CFA Leaderboard</a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation" @click.stop="toggleNavbar()">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarText">
+            <div class="collapse navbar-collapse" id="navbarText" v-bind:class="{ 'show': show }">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <router-link class="nav-link" to="/">HOME</router-link>
@@ -61,7 +61,9 @@ import {mapGetters} from "vuex";
 
 export default {
     data() {
-        return {}
+        return {
+            show: false
+        }
     },
     computed: {
         ...mapGetters([
@@ -70,6 +72,11 @@ export default {
     },
     async mounted() {
         await this.$store.dispatch('getWeb3');
+    },
+    methods: {
+        toggleNavbar() {
+            this.show = !this.show
+        }
     }
 }
 </script>
