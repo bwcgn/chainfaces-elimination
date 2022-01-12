@@ -6,6 +6,8 @@ const address = '0x93a796B1E846567Fe3577af7B7BB89F71680173a';
 
 const memorial = '0x7039D65E346FDEEBbc72514D718C88699c74ba4b';
 
+const chunkSize = 100;
+
 const api = {
     Contract : new web3.eth.Contract(abi, address),
     OriginBlock : 13916172,
@@ -20,18 +22,19 @@ const api = {
       return await web3.eth.getBlockNumber();
     },
     async getTokenHolders() {
+        console.log('getTokenHolders');
         let database = {};
 
         let contract = this.Contract;
 
-        let increment = 100;
+        let increment = chunkSize;
         let start = this.OriginBlock;
 
         do {
             if (start+increment > this.TournamentStart) {
                 increment = this.TournamentStart - start;
             }
-            console.log(`token hodlers reading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`token hodlers reading from ${start+1} to ${start+increment} up to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {},
@@ -58,11 +61,12 @@ const api = {
         return database;
     },
     async getBiggestWarriors() {
+        console.log('getBiggestWarriors');
         let database = {};
 
         let contract = this.Contract;
 
-        let increment = 100;
+        let increment = chunkSize;
         let start = this.OriginBlock;
 
         do {
@@ -70,7 +74,7 @@ const api = {
                 increment = this.TournamentStart - start;
             }
 
-            console.log(`biggest warriors reading from ${start+increment} to ${this.TournamentStart}`);
+            console.log(`biggest warriors reading from ${start+1} to ${start+increment} up to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
@@ -95,18 +99,19 @@ const api = {
         return database;
     },
     async getBiggestCowards() {
+        console.log('getBiggestCowards');
         let database = {};
 
         let contract = this.Contract;
         let currentBlock = await this.getBlockNumber();
-        let increment = 100;
+        let increment = chunkSize;
         let start = this.TournamentStart-1;
 
         do {
             if (start+increment > currentBlock) {
                 increment = currentBlock - start;
             }
-            console.log(`biggest cowards reading from ${start+increment} to ${currentBlock}`);
+            console.log(`biggest cowards reading from ${start+1} to ${start+increment} up to ${currentBlock}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
@@ -147,20 +152,36 @@ const api = {
         return count;
     },
     async getMemorial(ownerDb) {
-        let tokenTransfers = await this.Contract.getPastEvents('Transfer', {
-            filter: {to: memorial},
-            fromBlock: 0,
-            toBlock: 'latest'
-        });
+        console.log('getMemorial');
+        let database = {};
 
-        let list = {};
+        let contract = this.Contract;
+        let currentBlock = await this.getBlockNumber();
+        let increment = chunkSize;
+        let start = this.TournamentStart-1;
 
-        for (const event of tokenTransfers) {
-            let tokenId = event.returnValues.tokenId;
-            list[tokenId]  = ownerDb[tokenId];
-        }
+        do {
+            if (start+increment > currentBlock) {
+                increment = currentBlock - start;
+            }
+            console.log(`memorial reading from ${start+1} to ${start+increment} up to ${currentBlock}`);
 
-        return list;
+            let tokenTransfers = await contract.getPastEvents('Transfer', {
+                filter: {to: memorial},
+                fromBlock: start+1,
+                toBlock: start+increment
+            });
+
+            tokenTransfers.forEach( (event) => {
+                let tokenId = event.returnValues.tokenId;
+                database[tokenId]  = ownerDb[tokenId];
+            });
+
+            start += increment;
+
+        } while(start + increment < currentBlock);
+
+        return database;
     },
 }
 
