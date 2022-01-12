@@ -18,7 +18,10 @@
             <tbody>
             <tr v-for="v, i in getLeaderList" :key="v.owner">
                 <td>{{ i + 1 }}</td>
-                <td><a :href="getLink(v)" target="_blank">{{ v.owner }}</a></td>
+                <td>
+                    <a :href="getLink(v)" target="_blank">{{ v.owner }}</a>
+                    <span v-if="ens[v.owner]"> aka ({{ens[v.owner]}})</span>
+                </td>
                 <td>{{ v.totalTokens }}</td>
                 <td>{{ v.totalEntered }}</td>
                 <td>{{ v.totalCowards }}</td>
@@ -40,6 +43,7 @@ export default {
     name: 'Home',
     data() {
         return {
+            ens : {},
         }
     },
     methods: {
@@ -49,8 +53,28 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getLeaderList'
+            'getLeaderList',
+            'getEns'
         ])
     },
+    async mounted() {
+        let x = 0;
+        for (let i in this.getLeaderList) {
+            let r = this.getLeaderList[i];
+
+            let result = await this.getEns.getName(r.owner);
+
+            console.log(result);
+
+            if (result !== null && result.name !== null) {
+                this.ens[r.owner] = result.name;
+            }
+
+            x++;
+            if (x>25) {
+                break;
+            }
+        }
+    }
 }
 </script>

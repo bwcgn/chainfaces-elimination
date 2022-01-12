@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import json from './data/data.json';
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
+import ENS, { getEnsAddress } from '@ensdomains/ensjs'
+
 
 const abi = [{
     "inputs": [{
@@ -493,6 +495,7 @@ let store = new Vuex.Store({
         cowardCount: json.cowardCount,
         contract: null,
         addresss : null,
+        ens : null,
     },
     getters: {
         owners: state => {
@@ -543,7 +546,7 @@ let store = new Vuex.Store({
                 }
                 usersEnteredArenaTokens[state.warriorList[tokenId]]++;
             }
-            console.log(usersEnteredArenaTokens);
+            // console.log(usersEnteredArenaTokens);
             let list = [];
 
             let aliveTotal = 0;
@@ -616,7 +619,7 @@ let store = new Vuex.Store({
                 }
             }
 
-            console.log(list);
+            // console.log(list);
 
             list.sort(function (a, b) {
                 return b.count - a.count
@@ -629,6 +632,7 @@ let store = new Vuex.Store({
         getCfaAddress: (state) => state.cfaAddress,
         getContract: (state) => state.contract,
         getAddress: (state) => state.addresss,
+        getEns: (state) => state.ens,
     },
     mutations: {
         setContract(state, contract) {
@@ -636,6 +640,9 @@ let store = new Vuex.Store({
         },
         setAddress(state, address) {
             state.addresss = address;
+        },
+        setEns(state, ens) {
+            state.ens = ens;
         }
     },
     actions: {
@@ -644,10 +651,13 @@ let store = new Vuex.Store({
 
             if (state.contract == null) {
                 const provider = await detectEthereumProvider();
+
+                const ens = new ENS({ provider, ensAddress: getEnsAddress('1') })
                 let web3 = new Web3(provider);
                 let contract = new web3.eth.Contract(abi, address);
 
                 // let address = web3.eth.getAccounts();
+                commit('setEns', ens);
 
                 commit('setContract', contract);
                 // commit('setAddress', address[0] || null);
@@ -664,7 +674,7 @@ let store = new Vuex.Store({
                 fromBlock: 0,
                 toBlock: 'latest'
             });
-            console.log(tokenTransfers);
+            // console.log(tokenTransfers);
             if (tokenTransfers.length > 0) {
                 let tx = tokenTransfers[0];
 

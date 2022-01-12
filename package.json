@@ -7,6 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@ensdomains/ensjs": "^2.0.1",
     "@fast-csv/parse": "^4.3.6",
     "@metamask/detect-provider": "^1.2.0",
     "chart.js": "^3.7.0",
