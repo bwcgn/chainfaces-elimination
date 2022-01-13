@@ -10,8 +10,12 @@
 <script>
 
 import symbolCounts from "../store/data/symbolCounts.json";
+import symbolCountsDead from "../store/data/symbolCountsDead.json";
+
 const scoreData = symbolCounts.map((d) => [d.score, d.count]);
 scoreData.sort((a,b)=>a[1]-b[1]);
+const scoreDataDead = symbolCountsDead.map((d) => [d.score, d.count]);
+scoreDataDead.sort((a,b)=>a[1]-b[1]);
 const labels = [];
 const dataset = [];
 
@@ -22,13 +26,28 @@ for (let i in scoreData) {
     dataset.push(v[1]);
 }
 
+const labelsDead = [];
+const datasetDead = [];
+
+for (let i in scoreDataDead) {
+    let v = scoreDataDead[i];
+
+    labelsDead.push(v[0]);
+    datasetDead.push(v[1]);
+}
+
 const data = {
     labels: labels,
     datasets: [{
-        label: 'Symbol Counts',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        label: 'Alive',
+        backgroundColor: 'rgb(25, 150, 25)',
+        borderColor: 'rgb(25, 255, 25)',
         data: dataset,
+    },{
+        label: 'Dead',
+        backgroundColor: 'rgb(255, 25, 25)',
+        borderColor: 'rgb(255, 25, 25)',
+        data: datasetDead,
     }]
 };
 
@@ -37,17 +56,21 @@ const config = {
     data: data,
     options: {
         scales: {
-        x: {
-            ticks: {
-                autoSkip: false,
-                maxRotation: 0,
-                minRotation: 0,
-                font: {
-                    size: 14,
+            x: {
+                stacked: true,
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 0,
+                    minRotation: 0,
+                    font: {
+                        size: 14,
+                    }
                 }
+            },
+            y: {
+                stacked: true,
             }
         }
-    }
     }
 };
 
