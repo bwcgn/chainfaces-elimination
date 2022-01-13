@@ -566,16 +566,19 @@ let store = new Vuex.Store({
                 let cowards = (!getters.totalCowardsByAddress(addr) ? 0 : getters.totalCowardsByAddress(addr));
                 let deaths = (!getters.totalDeathsByAddress(addr) ? 0 : getters.totalDeathsByAddress(addr));
                 let alive = totalEntered - cowards - deaths;
-                list.push({
-                    owner: addr,
-                    totalTokens: total,
-                    totalEntered: totalEntered,
-                    totalCowards: cowards,
-                    totalDeaths: deaths,
-                    totalAlive: alive,
-                    percentageDead: ((deaths / (totalEntered-cowards)) * 100).toFixed(1) + '%',
-                    percentageOfAlive: ((alive / aliveTotal) * 100).toFixed(4) + '%'
-                });
+
+                if (alive > 0) {
+                    list.push({
+                        owner: addr,
+                        totalTokens: total,
+                        totalEntered: totalEntered,
+                        totalCowards: cowards,
+                        totalDeaths: deaths,
+                        totalAlive: alive,
+                        percentageDead: ((deaths / (totalEntered - cowards)) * 100).toFixed(1) + '%',
+                        percentageOfAlive: ((alive / aliveTotal) * 100).toFixed(4) + '%'
+                    });
+                }
             }
 
             list.sort(function (a, b) {
