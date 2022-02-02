@@ -6,7 +6,7 @@ const address = '0x93a796B1E846567Fe3577af7B7BB89F71680173a';
 
 const memorial = '0x7039D65E346FDEEBbc72514D718C88699c74ba4b';
 
-const chunkSize = 200;
+const chunkSize = 100;
 
 const api = {
     Contract : new web3.eth.Contract(abi, address),
