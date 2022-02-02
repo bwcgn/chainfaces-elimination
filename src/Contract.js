@@ -31,9 +31,7 @@ const api = {
         let start = this.OriginBlock;
 
         do {
-            if (start+increment > this.TournamentStart) {
-                increment = this.TournamentStart - start;
-            }
+
             console.log(`token hodlers reading from ${start+1} to ${start+increment} up to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
@@ -56,6 +54,10 @@ const api = {
 
             start += increment+1;
 
+            if (start+increment > this.TournamentStart) {
+                increment = this.TournamentStart - start;
+            }
+
         } while(start + increment < this.TournamentStart);
 
         return database;
@@ -70,10 +72,6 @@ const api = {
         let start = this.OriginBlock;
 
         do {
-            if (start+increment > this.TournamentStart) {
-                increment = this.TournamentStart - start;
-            }
-
             console.log(`biggest warriors reading from ${start+1} to ${start+increment} up to ${this.TournamentStart}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
@@ -94,6 +92,12 @@ const api = {
 
             start += increment + 1;
 
+            if (start+increment > this.TournamentStart) {
+                increment = this.TournamentStart - start;
+            }
+
+            console.log(start, increment, this.TournamentStart);
+
         } while(start + increment < this.TournamentStart);
 
         return database;
@@ -108,9 +112,7 @@ const api = {
         let start = this.TournamentStart-1;
 
         do {
-            if (start+increment > currentBlock) {
-                increment = currentBlock - start;
-            }
+
             console.log(`biggest cowards reading from ${start+1} to ${start+increment} up to ${currentBlock}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
@@ -133,6 +135,10 @@ const api = {
             });
 
             start += increment + 1;
+
+            if (start+increment > currentBlock) {
+                increment = currentBlock - start;
+            }
 
         } while(start + increment < currentBlock);
 
@@ -161,9 +167,7 @@ const api = {
         let start = this.TournamentStart-1;
 
         do {
-            if (start+increment > currentBlock) {
-                increment = currentBlock - start;
-            }
+
             console.log(`memorial reading from ${start+1} to ${start+increment} up to ${currentBlock}`);
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
@@ -178,6 +182,10 @@ const api = {
             });
 
             start += increment + 1;
+
+            if (start+increment > currentBlock) {
+                increment = currentBlock - start;
+            }
 
         } while(start + increment < currentBlock);
 
