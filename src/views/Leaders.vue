@@ -6,6 +6,7 @@
             <tr>
                 <th>Rank</th>
                 <th scope="col">Owner</th>
+                <th scope="col">ENS</th>
                 <th scope="col">Total</th>
                 <th scope="col">Entered</th>
                 <th scope="col">Withdrawn</th>
@@ -20,6 +21,9 @@
                 <td>{{ i + 1 }}</td>
                 <td>
                     <a :href="getLink(v)" target="_blank">{{ v.owner }}</a>
+                </td>
+                <td>
+                    {{ens[v.owner]}}
                 </td>
                 <td>{{ v.totalTokens }}</td>
                 <td>{{ v.totalEntered }}</td>
@@ -60,7 +64,21 @@ export default {
     },
     async mounted() {
         await this.$store.dispatch('getWeb3');
+
+        let ens = this.getEns;
+
         // this.list = await this.$store.dispatch('loadLeaderList');
+        let tokens = this.getLeaderList;
+
+        for (const i of tokens) {
+            let ensName = null;
+            ({ name: ensName } = await ens.getName(i.owner))
+            console.log(ensName, i.owner);
+            if (ensName) {
+                this.ens[i.owner] = ensName;
+            }
+        }
+        this.$forceUpdate();
     }
 }
 </script>
