@@ -496,6 +496,7 @@ let store = new Vuex.Store({
         contract: null,
         addresss : null,
         ens : null,
+        leaderList: [],
     },
     getters: {
         owners: state => {
@@ -649,6 +650,47 @@ let store = new Vuex.Store({
         }
     },
     actions: {
+        async loadLeaderList({state}) {
+            let count = await state.contract.methods.balanceOf('0x93a796b1e846567fe3577af7b7bb89f71680173a').call();
+
+            console.log(count);
+
+            let alives = {};
+            let list = [];
+            for (let x=0; x<count; x++) {
+                let tokenId = await state.contract.methods.tokenOfOwnerByIndex('0x93a796b1e846567fe3577af7b7bb89f71680173a', x).call();
+
+                console.log(tokenId);
+
+                let owner = state.ownerList[tokenId];
+
+                if (! alives[owner]) {
+                    alives[owner] = 0;
+                }
+
+                alives[owner]++;
+            }
+
+            for (const addr in alives) {
+
+                list.push({
+                    owner: addr,
+                    totalTokens: 0,
+                    totalEntered: 0,
+                    totalCowards: 0,
+                    totalDeaths: 0,
+                    totalAlive: alives[addr],
+                    percentageDead: '~%',
+                    percentageOfAlive: '~%'
+                });
+            }
+
+            list.sort(function (a, b) {
+                return b.totalAlive - a.totalAlive
+            })
+
+            return list;
+        },
         async getWeb3({state, commit}) {
             let contract = state.contract;
 
