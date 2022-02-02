@@ -6,7 +6,7 @@ const address = '0x93a796B1E846567Fe3577af7B7BB89F71680173a';
 
 const memorial = '0x7039D65E346FDEEBbc72514D718C88699c74ba4b';
 
-const chunkSize = 100;
+const chunkSize = 200;
 
 const api = {
     Contract : new web3.eth.Contract(abi, address),
@@ -38,7 +38,7 @@ const api = {
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {},
-                fromBlock: start+1,
+                fromBlock: start,
                 toBlock: start+increment
             });
 
@@ -54,7 +54,7 @@ const api = {
                 }
             })
 
-            start += increment;
+            start += increment+1;
 
         } while(start + increment < this.TournamentStart);
 
@@ -78,7 +78,7 @@ const api = {
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {to : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
-                fromBlock: start+1,
+                fromBlock: start,
                 toBlock: start+increment
             });
 
@@ -92,7 +92,7 @@ const api = {
                 database[tokenId] = from;
             })
 
-            start += increment;
+            start += increment + 1;
 
         } while(start + increment < this.TournamentStart);
 
@@ -115,7 +115,7 @@ const api = {
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: { from : '0x93a796B1E846567Fe3577af7B7BB89F71680173a'},
-                fromBlock: start+1,
+                fromBlock: start,
                 toBlock: start+increment
             });
 
@@ -132,7 +132,7 @@ const api = {
 
             });
 
-            start += increment;
+            start += increment + 1;
 
         } while(start + increment < currentBlock);
 
@@ -168,7 +168,7 @@ const api = {
 
             let tokenTransfers = await contract.getPastEvents('Transfer', {
                 filter: {to: memorial},
-                fromBlock: start+1,
+                fromBlock: start,
                 toBlock: start+increment
             });
 
@@ -177,7 +177,7 @@ const api = {
                 database[tokenId]  = ownerDb[tokenId];
             });
 
-            start += increment;
+            start += increment + 1;
 
         } while(start + increment < currentBlock);
 
