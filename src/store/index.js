@@ -689,6 +689,28 @@ let store = new Vuex.Store({
                 return await contract.methods.renderSvg(parseInt(tokenId)).call();
             }
         },
+        async roundsSurvived({state}, tokenId) {
+            let contract = state.contract;
+
+            //Find Block Death for Token
+            let tokenTransfers = await contract.getPastEvents('Transfer', {
+                filter: {to: state.memorial, tokenId: parseInt(tokenId)},
+                fromBlock: 0,
+                toBlock: 'latest'
+            });
+            // console.log(tokenTransfers);
+            if (tokenTransfers.length > 0) {
+                let tx = tokenTransfers[0];
+
+                let target = tx.blockNumber - 1;
+
+
+                return await contract.methods.currentRound().call({}, target);
+            } else {
+                return await contract.methods.currenRound().call();
+            }
+        },
+
     },
     modules: {}
 });

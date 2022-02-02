@@ -10,6 +10,7 @@
             <div class="col-6">
                 <img src="@/assets/TimeMachine.gif" class="img" v-if="loading" />
                 <div v-html="svg" v-if="toggle"></div>
+                <div v-if="toggle">Rounds Survived: {{rounds}}</div>
             </div>
         </div>
     </div>
@@ -24,6 +25,7 @@ export default {
             contract: null,
             toggle: false,
             loading: false,
+            rounds: null,
         }
     },
     methods: {
@@ -37,6 +39,7 @@ export default {
             }, 10000);
 
             this.svg = await this.$store.dispatch("getSvg", this.tokenId);
+            this.rounds = await this.$store.dispatch("roundsSurvived", this.tokenId);
         }
     },
     async mounted() {
