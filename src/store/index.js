@@ -657,10 +657,10 @@ let store = new Vuex.Store({
 
             let alives = {};
             let list = [];
+            let totalAlive = count;
+
             for (let x=0; x<count; x++) {
                 let tokenId = await state.contract.methods.tokenOfOwnerByIndex('0x93a796b1e846567fe3577af7b7bb89f71680173a', x).call();
-
-                console.log(tokenId);
 
                 let owner = state.ownerList[tokenId];
 
@@ -669,6 +669,7 @@ let store = new Vuex.Store({
                 }
 
                 alives[owner]++;
+
             }
 
             for (const addr in alives) {
@@ -681,7 +682,7 @@ let store = new Vuex.Store({
                     totalDeaths: 0,
                     totalAlive: alives[addr],
                     percentageDead: '~%',
-                    percentageOfAlive: '~%'
+                    percentageOfAlive: (alives[addr] / totalAlive * 100).toFixed(2) + '%'
                 });
             }
 
