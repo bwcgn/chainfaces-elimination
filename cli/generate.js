@@ -10,6 +10,7 @@ const Contract = require('./../src/Contract');
     let bn = await Contract.getBlockNumber();
     let cowards = await Contract.getBiggestCowards();
     let warriors = await Contract.getBiggestWarriors();
+    let warriorCount = Contract.getCount(warriors);
     let CowardCount = Contract.getCount(cowards);
 
     fs.writeFileSync(__dirname + '/../src/store/data/data.json', JSON.stringify({
@@ -20,6 +21,7 @@ const Contract = require('./../src/Contract');
         blockNumber : bn,
         cowards : cowards,
         warriors: warriors,
+        warriorCount: warriorCount,
         cowardCount : CowardCount
     }));
 })();

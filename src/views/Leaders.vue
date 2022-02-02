@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="v, i in list" :key="v.owner">
+            <tr v-for="v, i in getLeaderList" :key="v.owner">
                 <td>{{ i + 1 }}</td>
                 <td>
                     <a :href="getLink(v)" target="_blank">{{ v.owner }}</a>
@@ -60,7 +60,7 @@ export default {
     },
     async mounted() {
         await this.$store.dispatch('getWeb3');
-        this.list = await this.$store.dispatch('loadLeaderList');
+        // this.list = await this.$store.dispatch('loadLeaderList');
     }
 }
 </script>
