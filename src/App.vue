@@ -1,69 +1,44 @@
 <template>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
             <a class="navbar-brand" href="#">CFA Leaderboard</a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation" @click.stop="toggleNavbar()">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText" v-bind:class="{ 'show': show }">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/">HOME</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/leaders">LEADERS</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/eliminated">ELIMATED</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/cowards">COWARDS</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/timemachine">TIME MACHINE</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/golf-score">GOLF SCORES</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/arena-score">ARENA SCORES</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/scar-supply">SCAR SUPPLY</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/symbols">SYMBOLS</router-link>
-                    </li>
-                </ul>
+                <Navigation />
             </div>
         </nav>
 
         <div class="container-fluid">
-                <div class="row mt-4">
-                    <div class="col-10">
+            <div class="row mt-4">
+                <div class="col-12 col-xxl-10 overflow">
                     <router-view/>
-                    </div>
-                    <div class="col-2 small_screen_hidden">
-                        <div class="float_right">
-                            <img src="@/assets/arena.gif" class="img" width="200px;">
-                            <br>
-                            by <a href="https://twitter.com/tyandrykowski" target="_blank">@tyandrykowski</a>
-                        </div>
-                    </div>
                 </div>
+                <div class="col-xxl-2 d-none d-xxl-inline-block">
+                    <figure>
+                        <img src="@/assets/arena.gif" alt="arena gif by twitter.com/tyandrykowski" style="width:100%">
+                        <figcaption class="text-end fs-6">by <a href="https://twitter.com/tyandrykowski" target="_blank">@tyandrykowski</a></figcaption>
+                    </figure>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
+import Navigation from "./components/Navigation.vue"
 
 export default {
     data() {
         return {
             show: false
         }
+    },
+    components: {
+        Navigation
     },
     computed: {
         ...mapGetters([

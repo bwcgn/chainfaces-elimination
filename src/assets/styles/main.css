@@ -1,8 +1,0 @@
-@media screen and (max-width: 1400px) {
-    .small_screen_hidden {
-        display: none;
-    }
-}
-.float_right{
-    float: right;
-}
