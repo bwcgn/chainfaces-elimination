@@ -12,15 +12,6 @@
                         <router-link class="nav-link" to="/">HOME</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/leaders">LEADERS</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/eliminated">ELIMATED</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/cowards">COWARDS</router-link>
-                    </li>
-                    <li class="nav-item">
                         <router-link class="nav-link" to="/timemachine">TIME MACHINE</router-link>
                     </li>
                     <li class="nav-item">
@@ -33,7 +24,7 @@
                         <router-link class="nav-link" to="/scar-supply">SCAR SUPPLY</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/symbols">SYMBOLS</router-link>
+                        <router-link class="nav-link" to="/symbols">SYMBOL RARITY</router-link>
                     </li>
                 </ul>
             </div>
