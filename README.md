@@ -14,4 +14,4 @@ We basically want this `https://etherscan.io/token/0x93a796b1e846567fe3577af7b7b
 7. Once it's merged, you will get the prize
 
 # What you are competing for
-You will get X Random CFAs from our community wallet.
+You will get 3 Random CFAs from our community wallet.
