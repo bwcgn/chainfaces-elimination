@@ -8,7 +8,7 @@
         </div>
         <h2 class="lead">WARRIORS</h2>
         <div class="row">
-            <div class="col-2 ma-2" v-for="i in tokens">
+            <div class="col-2 ma-2" :key="i" v-for="i in tokens">
                 <div class="card card-border">
                     <div class="card-img-top" v-html="i"></div>
                 </div>
