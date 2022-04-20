@@ -4,6 +4,9 @@
             <router-link class="nav-link" to="/">HOME</router-link>
         </li>
         <li class="nav-item">
+            <router-link class="nav-link" to="/leaderboard">LEADERBOARD</router-link>
+        </li>
+        <li class="nav-item">
             <router-link class="nav-link" to="/timemachine">TIME MACHINE</router-link>
         </li>
         <li class="nav-item">

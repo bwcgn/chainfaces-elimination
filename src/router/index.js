@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Leaderboard from '../views/Leaderboard.vue'
 import About from "@/views/About";
 import Leaders from "@/views/Leaders";
 import Cowards from "@/views/Cowards";
@@ -19,6 +20,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: "/leaderboard",
+    name: "Leaderboard",
+    component: Leaderboard
   },
   {
     path: '/leaders',
