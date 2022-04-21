@@ -21,6 +21,73 @@ const api = {
     async getBlockNumber() {
       return await web3.eth.getBlockNumber();
     },
+    async fetchTransferEvents(fromBlock, toBlock) {
+        let tokenTransfers = await this.Contract.getPastEvents('Transfer', {
+            filter: {},
+            fromBlock: fromBlock,
+            toBlock: toBlock,
+            topics: [
+                "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+            ]
+        });
+        return tokenTransfers;
+    },
+    async tryToFetchTransferEventsFast(startBlock, increaseIncrement) {
+        const fastIncrement = 1000;
+        try {
+            let tokenTransfers = await this.fetchTransferEvents(startBlock, startBlock + fastIncrement);
+            increaseIncrement(fastIncrement);
+            return tokenTransfers;
+        } catch (error) {
+            let tokenTransfers = await this.fetchTransferEvents(startBlock, startBlock + chunkSize);
+            increaseIncrement(chunkSize);
+            return tokenTransfers;
+        }
+    },
+    async fetchLeaderboard(returnCurrentDatabase, initialDatabase) {
+        let database = JSON.parse(JSON.stringify(initialDatabase));
+        
+        let currentBlock = 14629936;
+        let latestBlock = await this.getBlockNumber();
+
+        do {
+            console.log(`start fetching from current block: ${currentBlock}.`);
+            
+            const increaseIncrement = (increment) => { currentBlock += increment };
+            const tokenTransfers = await this.tryToFetchTransferEventsFast(currentBlock, increaseIncrement);
+
+            tokenTransfers.forEach( (event) => {
+                let values = event.returnValues;
+
+                let from = values[0];
+                let to = values[1];
+                let tokenId = parseInt(values[2]);
+                
+                const sender = database.find(
+                    (entry) => entry.address === from
+                );
+                if (sender !== undefined) {
+                    const index = sender.tokens.indexOf(tokenId);
+                    if (index > -1) {
+                        sender.tokens.splice(index, 1);
+                    }
+                }
+                const receiver = database.find(
+                    (entry) => entry.address === to
+                );
+                if (receiver === undefined) {
+                    database.push({address: to, tokens: [tokenId]});
+                } else {
+                    const index = receiver.tokens.indexOf(tokenId);
+                    if (index === -1) receiver.tokens.push(tokenId);
+                }
+            });
+            database = database.filter(element => element.tokens.length !== 0);
+            returnCurrentDatabase(database);
+        } while(currentBlock < latestBlock);
+
+        return database;
+    },
     async getTokenHolders() {
         console.log('getTokenHolders');
         let database = {};

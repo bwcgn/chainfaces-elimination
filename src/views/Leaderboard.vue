@@ -55,11 +55,11 @@ tr:nth-child(even) {
       <tr v-for="(rank, index) in elementsToDisplay" :key="index">
         <td>{{ rank + currentIndex }}</td>
         <td>{{ leaderboard[index + currentIndex].address }}</td>
-        <td>{{ leaderboard[index + currentIndex].token.length }}</td>
+        <td>{{ leaderboard[index + currentIndex].tokens.length }}</td>
         <td>
           {{
             (
-              (leaderboard[index + currentIndex].token.length / 26969) *
+              (leaderboard[index + currentIndex].tokens.length / 26969) *
               100
             ).toFixed(2)
           }}%
@@ -99,6 +99,7 @@ tr:nth-child(even) {
 
 <script>
 import holder from "../store/data/holder.json";
+import API from "../Contract";
 
 const latestBlock = 14611087;
 
@@ -112,9 +113,14 @@ export default {
     };
   },
   async mounted() {
-    this.fetchTransfers(latestBlock);
+    this.onSetLeaderboard(await API.fetchLeaderboard(this.onSetLeaderboard, holder));
   },
   methods: {
+    onSetLeaderboard(database) {
+      this.leaderboard = database.sort(
+        (left, right) => (left.tokens.length < right.tokens.length) ? 1 : (left.tokens.length > right.tokens.length) ? -1 : 0
+      );
+    },
     onFirst() {
       this.currentIndex = 0;
     },
@@ -155,47 +161,7 @@ export default {
     },
     onLast() {
       this.currentIndex = this.leaderboard.length - this.elementsToDisplay;
-    },
-    async fetchTransfers(startBlock) {
-      const address = "0x93a796b1e846567fe3577af7b7bb89f71680173a";
-      const topic = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
-      const apikey = "REPLACE_WITH_YOUR_API_KEY";
-      const url = `https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock=${startBlock}&toBlock=latest&address=${address}&topic0=${topic}&apikey=${apikey}`;
-      const result = await fetch(url);
-      const json = await result.json();
-      if (json.status !== "1") {
-          console.log("data is up to date");
-          return;
-      }
-      const transactions = json.result;
-      transactions.forEach((transaction) => {
-        const sender = transaction.topics[1].replace(/^0x0+/, "0x");
-        const receiver = transaction.topics[2].replace(/^0x0+/, "0x");
-        const token = parseInt(transaction.topics[3], 16);
-        const leaderboardSender = this.leaderboard.find(
-          (holder) => holder.address === sender
-        );
-        if (leaderboardSender !== undefined) {
-            const index = leaderboardSender.token.indexOf(token);
-            if (index > -1) leaderboardSender.token.splice(index, 1);
-        }
-        const leaderboardReceiver = this.leaderboard.find(
-          (holder) => holder.address === receiver
-        );
-        if (leaderboardReceiver === undefined) {
-            this.leaderboard.push({
-                address: receiver,
-                token: [token]
-            })
-        } else {
-            leaderboardReceiver.token.push(token);
-        }
-      });
-      this.leaderboard = this.leaderboard.sort(
-        (left, right) => (left.token.length < right.token.length) ? 1 : (left.token.length > right.token.length) ? -1 :0
-    );
-      await this.fetchTransfers(parseInt(transactions.slice(-1)[0].blockNumber, 16)+1)
-    },
+    }
   },
   computed: {},
 };
