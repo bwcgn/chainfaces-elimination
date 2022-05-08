@@ -54,7 +54,11 @@ tr:nth-child(even) {
       </tr>
       <tr v-for="(rank, index) in elementsToDisplay" :key="index">
         <td>{{ rank + currentIndex }}</td>
-        <td>{{ leaderboard[index + currentIndex].address }}</td>
+        <td>
+          <a :href="'https://opensea.io/' + leaderboard[index + currentIndex].address" target="_blank" rel="noreferrer noopener">
+            {{ leaderboard[index + currentIndex].address }}
+          </a>
+        </td>
         <td>{{ leaderboard[index + currentIndex].tokens.length }}</td>
         <td>
           {{

@@ -85,7 +85,7 @@ const api = {
             database = database.filter(element => element.tokens.length !== 0);
             returnCurrentDatabase(database);
         } while(currentBlock < latestBlock);
-
+        console.log("fetching done");
         return database;
     },
     async getTokenHolders() {
