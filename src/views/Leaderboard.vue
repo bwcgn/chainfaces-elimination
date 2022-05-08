@@ -56,7 +56,11 @@ tr:nth-child(even) {
         <td>{{ rank + currentIndex }}</td>
         <td>
           <a :href="'https://opensea.io/' + leaderboard[index + currentIndex].address" target="_blank" rel="noreferrer noopener">
-            {{ leaderboard[index + currentIndex].address }}
+            {{ 
+              leaderboard[index + currentIndex].ens !== undefined ? 
+              leaderboard[index + currentIndex].ens : 
+              leaderboard[index + currentIndex].address 
+            }}
           </a>
         </td>
         <td>{{ leaderboard[index + currentIndex].tokens.length }}</td>
@@ -104,8 +108,14 @@ tr:nth-child(even) {
 <script>
 import holder from "../store/data/holder.json";
 import API from "../Contract";
-
-const latestBlock = 14611087;
+require('dotenv').config();
+const ethers = require("ethers");
+const provider = new ethers.providers.InfuraProvider(
+    "homestead", {
+        projectId: process.env.INFURA_PROJECT_ID,
+        projectSecret: process.env.INFURA_PROJECT_SECRET
+    }
+);
 
 export default {
   name: "Leaderboard",
@@ -118,6 +128,7 @@ export default {
   },
   async mounted() {
     this.onSetLeaderboard(await API.fetchLeaderboard(this.onSetLeaderboard, holder));
+    this.onFetchCurrentENS();
   },
   methods: {
     onSetLeaderboard(database) {
@@ -125,8 +136,25 @@ export default {
         (left, right) => (left.tokens.length < right.tokens.length) ? 1 : (left.tokens.length > right.tokens.length) ? -1 : 0
       );
     },
+    onFetchCurrentENS() {
+      const index = this.currentIndex;
+      const elementsToDisplay = this.elementsToDisplay;
+      for (let i = index; i < index + elementsToDisplay; i++) {
+        this.fetchENS(i);
+      }
+    },
+    async fetchENS(index) {
+      const holder = this.leaderboard[index];
+      if (holder.ens === undefined || holder.ens === null) {
+        const ens = await provider.lookupAddress(holder.address);
+        if (ens !== null) {
+          this.leaderboard[index].ens = ens;
+        }
+      }
+    },
     onFirst() {
       this.currentIndex = 0;
+      this.onFetchCurrentENS();
     },
     onPrevious() {
       const newIndex = this.currentIndex - this.elementsToDisplay;
@@ -135,6 +163,7 @@ export default {
       } else {
         this.currentIndex = newIndex;
       }
+      this.onFetchCurrentENS();
     },
     onSwitchElementsToDisplay() {
       switch (this.elementsToDisplay) {
@@ -154,6 +183,7 @@ export default {
           this.elementsToDisplay = 10;
           break;
       }
+      this.onFetchCurrentENS();
     },
     onNext() {
       const newIndex = this.currentIndex + this.elementsToDisplay;
@@ -162,9 +192,11 @@ export default {
       } else {
         this.currentIndex = newIndex;
       }
+      this.onFetchCurrentENS();
     },
     onLast() {
       this.currentIndex = this.leaderboard.length - this.elementsToDisplay;
+      this.onFetchCurrentENS();
     }
   },
   computed: {},

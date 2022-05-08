@@ -47,7 +47,7 @@ const api = {
     async fetchLeaderboard(returnCurrentDatabase, initialDatabase) {
         let database = JSON.parse(JSON.stringify(initialDatabase));
         
-        let currentBlock = 14629936;
+        let currentBlock = 14735936;
         let latestBlock = await this.getBlockNumber();
 
         do {
