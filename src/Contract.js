@@ -11,8 +11,8 @@ const chunkSize = 100;
 const api = {
     Contract : new web3.eth.Contract(abi, address),
     OriginBlock : 13916172,
-    TournamentStart: 13935472,
-    MemorialStart: 13935472,
+    TournamentStart: 13942962,
+    MemorialStart: 13942962,
     Database: {},
     OwnerCount: {},
     DeathCount: {},
