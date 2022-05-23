@@ -2,6 +2,13 @@ const axios = require('axios');
 require('dotenv').config();
 const PAGE_SIZE = 181;
 const fs = require('fs');
+const ethers = require("ethers");
+const provider = new ethers.providers.InfuraProvider(
+    "homestead", {
+        projectId: process.env.INFURA_PROJECT_ID,
+        projectSecret: process.env.INFURA_PROJECT_SECRET
+    }
+);
 
 const getTokenOwners = async (cursor) => {
     let url = 'https://deep-index.moralis.io/api/v2/nft/0x93a796b1e846567fe3577af7b7bb89f71680173a/owners?chain=eth&format=decimal&limit='+PAGE_SIZE;
@@ -44,8 +51,12 @@ const getTokenOwners = async (cursor) => {
 
     let ownerDb = [];
     for (const owner of Object.keys(db)) {
+        const ens = await provider.lookupAddress(owner);
+
+        console.log(`Owner ${owner} resolved ens ${ens}`);
+
         ownerDb.push({
-            address: owner,
+            address: ens !== null? ens : owner,
             total: db[owner].length
         })
     }

@@ -56,10 +56,8 @@ tr:nth-child(even) {
         <td>{{ rank + currentIndex }}</td>
         <td>
           <a :href="'https://opensea.io/' + leaderboard[index + currentIndex].address" target="_blank" rel="noreferrer noopener">
-            {{ 
-              leaderboard[index + currentIndex].ens !== undefined ? 
-              leaderboard[index + currentIndex].ens : 
-              leaderboard[index + currentIndex].address 
+            {{
+              renderAddress(leaderboard[index + currentIndex].address)
             }}
           </a>
         </td>
@@ -107,22 +105,13 @@ tr:nth-child(even) {
 
 <script>
 import holder from "../store/data/holders.json";
-import API from "../Contract";
-require('dotenv').config();
-const ethers = require("ethers");
-const provider = new ethers.providers.InfuraProvider(
-    "homestead", {
-        projectId: process.env.INFURA_PROJECT_ID,
-        projectSecret: process.env.INFURA_PROJECT_SECRET
-    }
-);
 
 export default {
   name: "Leaderboard",
   data() {
     return {
       leaderboard: holder,
-      elementsToDisplay: 10,
+      elementsToDisplay: 50,
       currentIndex: 0,
     };
   },
@@ -131,7 +120,15 @@ export default {
     this.onFetchCurrentENS();
   },
   methods: {
-    onSetLeaderboard(database) {
+    renderAddress(addr) {
+      if (addr === '0x7039d65e346fdeebbc72514d718c88699c74ba4b') {
+        return 'Dead Faces';
+      }
+
+      return addr;
+    },
+
+onSetLeaderboard(database) {
       this.leaderboard = database.sort(
         (left, right) => (left.total < right.total) ? 1 : (left.total > right.total) ? -1 : 0
       );
@@ -144,13 +141,7 @@ export default {
       }
     },
     async fetchENS(index) {
-      const holder = this.leaderboard[index];
-      if (holder.ens === undefined || holder.ens === null) {
-        const ens = await provider.lookupAddress(holder.address);
-        if (ens !== null) {
-          this.leaderboard[index].ens = ens;
-        }
-      }
+
     },
     onFirst() {
       this.currentIndex = 0;
