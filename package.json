@@ -10,6 +10,7 @@
     "@ensdomains/ensjs": "^2.0.1",
     "@fast-csv/parse": "^4.3.6",
     "@metamask/detect-provider": "^1.2.0",
+    "axios": "^0.27.2",
     "chart.js": "^3.7.0",
     "csv-parser": "^3.0.0",
     "csv-writer": "^1.6.0",

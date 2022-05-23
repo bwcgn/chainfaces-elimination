@@ -63,11 +63,11 @@ tr:nth-child(even) {
             }}
           </a>
         </td>
-        <td>{{ leaderboard[index + currentIndex].tokens.length }}</td>
+        <td>{{ leaderboard[index + currentIndex].total }}</td>
         <td>
           {{
             (
-              (leaderboard[index + currentIndex].tokens.length / 26969) *
+              (leaderboard[index + currentIndex].total / 26969) *
               100
             ).toFixed(2)
           }}%
@@ -106,7 +106,7 @@ tr:nth-child(even) {
 </template>
 
 <script>
-import holder from "../store/data/holder.json";
+import holder from "../store/data/holders.json";
 import API from "../Contract";
 require('dotenv').config();
 const ethers = require("ethers");
@@ -127,13 +127,13 @@ export default {
     };
   },
   async mounted() {
-    this.onSetLeaderboard(await API.fetchLeaderboard(this.onSetLeaderboard, holder));
+    this.onSetLeaderboard(holder);
     this.onFetchCurrentENS();
   },
   methods: {
     onSetLeaderboard(database) {
       this.leaderboard = database.sort(
-        (left, right) => (left.tokens.length < right.tokens.length) ? 1 : (left.tokens.length > right.tokens.length) ? -1 : 0
+        (left, right) => (left.total < right.total) ? 1 : (left.total > right.total) ? -1 : 0
       );
     },
     onFetchCurrentENS() {
