@@ -3,6 +3,7 @@ require('dotenv').config();
 const PAGE_SIZE = 181;
 const fs = require('fs');
 const ethers = require("ethers");
+
 const provider = new ethers.providers.InfuraProvider(
     "homestead", {
         projectId: process.env.INFURA_PROJECT_ID,
@@ -49,9 +50,18 @@ const getTokenOwners = async (cursor) => {
         }
     }
 
+    let ensLookupDb = require(__dirname + "/../src/store/data/ensDb.json");
+
     let ownerDb = [];
     for (const owner of Object.keys(db)) {
-        const ens = await provider.lookupAddress(owner);
+
+        let ens = ensLookupDb[owner];
+
+        if (!ensLookupDb[owner]) {
+            console.log('looking up ens');
+            ens = await provider.lookupAddress(owner);
+            ensLookupDb[owner] = ens;
+        }
 
         console.log(`Owner ${owner} resolved ens ${ens}`);
 
@@ -63,4 +73,5 @@ const getTokenOwners = async (cursor) => {
 
     console.log(`Counted ${counted}`);
     fs.writeFileSync("./src/store/data/holders.json", JSON.stringify(ownerDb));
+    fs.writeFileSync("./src/store/data/ensDb.json", JSON.stringify(ensLookupDb));
 })();
