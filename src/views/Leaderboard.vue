@@ -125,6 +125,10 @@ export default {
         return 'Dead Faces';
       }
 
+      if (addr === '0x55b3bd7c074ccb74a245d2546273ba690647e8db') {
+        return 'HD Faces';
+      }
+
       return addr;
     },
 
