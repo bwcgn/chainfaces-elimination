@@ -75,6 +75,8 @@ export default {
 
         let result = await shrineContraact.methods.isClaimed(i).call();
 
+        console.debug(result);
+
         if (!result) {
           console.error(`You have already claimed token ${i}`);
           this.message = `You have already claimed token ${i}`;
