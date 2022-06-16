@@ -77,7 +77,7 @@ export default {
 
         console.debug(result);
 
-        if (!result) {
+        if (result) {
           console.error(`You have already claimed token ${i}`);
           this.message = `You have already claimed token ${i}`;
           return;
