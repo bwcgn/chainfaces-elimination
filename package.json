@@ -7,9 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.3.0",
     "@ensdomains/ensjs": "^2.0.1",
     "@fast-csv/parse": "^4.3.6",
     "@metamask/detect-provider": "^1.2.0",
+    "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",
     "chart.js": "^3.7.0",
     "csv-parser": "^3.0.0",
@@ -21,7 +23,8 @@
     "vue-chartjs": "^3.5.1",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0",
-    "web3": "^1.6.1"
+    "web3": "^1.6.1",
+    "web3modal": "^1.9.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
