@@ -497,6 +497,7 @@ let store = new Vuex.Store({
         addresss : null,
         ens : null,
         leaderList: [],
+        web3: null
     },
     getters: {
         owners: state => {
@@ -637,6 +638,7 @@ let store = new Vuex.Store({
         getContract: (state) => state.contract,
         getAddress: (state) => state.addresss,
         getEns: (state) => state.ens,
+        getWeb3: (state) => state.web3,
     },
     mutations: {
         setContract(state, contract) {
@@ -647,6 +649,9 @@ let store = new Vuex.Store({
         },
         setEns(state, ens) {
             state.ens = ens;
+        },
+        setWeb3(state, web3) {
+            state.web3 = web3;
         }
     },
     actions: {
@@ -703,6 +708,7 @@ let store = new Vuex.Store({
                 let contract = new web3.eth.Contract(abi, address);
 
                 // let address = web3.eth.getAccounts();
+                commit('setWeb3', web3);
                 commit('setEns', ens);
 
                 commit('setContract', contract);

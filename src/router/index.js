@@ -65,6 +65,11 @@ const routes = [
     path: '/symbols',
     name: 'SymbolCounts',
     component: SymbolCounts
+  },
+  {
+    path: '/bulk-revive',
+    name: 'Bulk Revive',
+    component: Wallet
   }
 ]
 
