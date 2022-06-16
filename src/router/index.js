@@ -6,12 +6,13 @@ import About from "@/views/About";
 import Leaders from "@/views/Leaders";
 import Cowards from "@/views/Cowards";
 import Timemachine from "@/views/Timemachine";
-import Wallet from "@/views/Wallet";
+import BulkRevive from "@/views/BulkRevive";
 import npgoress from 'nprogress';
 import GolfScore from "@/views/GolfScore";
 import ArenaScore from "@/views/ArenaScore";
 import ScarSupply from "@/views/ScarSupply";
 import SymbolCounts from "@/views/SymbolCounts";
+import BulkUpgrade from "@/views/BulkUpgrade";
 
 Vue.use(VueRouter)
 
@@ -69,7 +70,12 @@ const routes = [
   {
     path: '/bulk-revive',
     name: 'Bulk Revive',
-    component: Wallet
+    component: BulkRevive
+  },
+  {
+    path: '/bulk-upgrade',
+    name: 'Bulk Upgrade',
+    component: BulkUpgrade
   }
 ]
 

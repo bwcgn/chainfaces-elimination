@@ -142,7 +142,7 @@ export default {
       coinbasewallet: {
         package: CoinbaseWalletSDK, // Required
         options: {
-          appName: "Death Rays League", // Required
+          appName: "CFA", // Required
           infuraId: process.env.INFURA_PROJECT_ID, // Required
           rpc: "", // Optional if `infuraId` is provided; otherwise it's required
           chainId: 1, // Optional. It defaults to 1 if not provided
