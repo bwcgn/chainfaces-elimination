@@ -73,9 +73,7 @@ export default {
       {
         let item = items.filter( item => item.id === i);
 
-        let result = await shrineContraact.methods.isClaimed(i).call();
-
-        console.debug(result);
+        let result = await shrineContraact.methods.isClaimed(item[0].index).call();
 
         if (result) {
           console.error(`You have already claimed token ${i}`);
@@ -91,24 +89,28 @@ export default {
         }
       }
 
-      let gas = await shrineContraact.methods.resurrectMulti(
-          indexes,
-          tokenIds,
-          roundsSurvived,
-          proofs
-      ).estimateGas({
-        from: account,
-      });
+      if (tokenIds.length > 0) {
+        let gas = await shrineContraact.methods.resurrectMulti(
+            indexes,
+            tokenIds,
+            roundsSurvived,
+            proofs
+        ).estimateGas({
+          from: account,
+        });
 
-      let tx = await shrineContraact.methods.resurrectMulti(
-          indexes,
-          tokenIds,
-          roundsSurvived,
-          proofs
-      ).send({
-        from: account,
-        gasLimit: gas
-      });
+        let tx = await shrineContraact.methods.resurrectMulti(
+            indexes,
+            tokenIds,
+            roundsSurvived,
+            proofs
+        ).send({
+          from: account,
+          gasLimit: gas
+        });
+      } else {
+        this.message = 'No tokens found for revival';
+      }
     },
     async fetch() {
       let result = await axios.get('/merkleRoot.json');
