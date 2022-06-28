@@ -24,7 +24,10 @@
           </tr>
           </tbody>
         </table>
-        <button class="btn btn-primary" v-show="selectedIndexes.length > 0 && selectedIndexes.length <= 16 && elixirCount > 0" v-on:click="upgrade">Upgrade ({{this.elixirCount}})</button>
+        <button class="btn btn-primary" v-show="approved === false && selectedIndexes.length > 0 && selectedIndexes.length <= 16" v-on:click="upgrade">Check Approval</button>
+        <button class="btn btn-primary" v-show="approved === true && selectedIndexes.length > 0 && selectedIndexes.length <= 16 && elixirCount >= selectedIndexes.length" v-on:click="upgrade2">Upgrade CFAs</button>
+
+        <div class="text-error" v-if="approved === true && selectedIndexes.length > 0 && selectedIndexes.length <= 16 && elixirCount < selectedIndexes.length">Not enough Elixir</div>
         <div class="text-error" v-if="message">{{this.message}}</div>
       </div>
     </div>
@@ -59,14 +62,13 @@ export default {
       elixirContract: null,
       elixirCount: 0,
       upgradeContract: null,
+      approved: false
     }
   },
   methods: {
-    async upgrade() {
+    async upgrade2() {
       let accounts = await this.web3.eth.getAccounts();
       let account = accounts[0];
-
-      console.log(this.selectedIndexes);
 
       let gas = await this.upgradeContract.methods.wrapCFAMulti(this.selectedIndexes).estimateGas({
         from: account
@@ -78,6 +80,29 @@ export default {
       });
 
       await this.fetch();
+    },
+    async upgrade() {
+      let accounts = await this.web3.eth.getAccounts();
+      let account = accounts[0];
+
+      // console.log(this.selectedIndexes);
+
+      //Check Authorization
+      this.approved = await this.cfaContract.methods.isApprovedForAll(account, upgradeContractAddress).call();
+
+      if (! this.approved) {
+        // this.cfaContract.methods.isApprovedForAll(account, upgradeContractAddress).call();
+        let gas = await this.cfaContract.methods.setApprovalForAll(upgradeContractAddress, true).estimateGas({
+          from: accounts[0],
+        });
+
+        await this.cfaContract.methods.setApprovalForAll(upgradeContractAddress, true).send({
+          from: accounts[0],
+          gasLimit: gas,
+        });
+
+        this.approved = true;
+      }
     },
     async fetch() {
       this.fetchState = true;
