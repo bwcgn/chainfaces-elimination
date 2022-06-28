@@ -7,7 +7,9 @@
       </div>
     </div>
     <h2 class="lead pt-3">WARRIORS</h2>
-    <h4 class="lead">**It is up to you, to know what tokens you have revived. Max 16 items**</h4>
+    <h4 class="lead">**First time users will be asked to set approval for the upgrade contract to transfer your CFAs.
+      This will be your first tx you need to sign. After the upgrade contract has approval you can upgrade as many cfas as you want.
+      Max 16 items**</h4>
     <div class="row">
       <div class="col-6 ma-2">
         <table class="table" v-if="tokens.length > 0">
