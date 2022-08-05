@@ -13,6 +13,7 @@ import ArenaScore from "@/views/ArenaScore";
 import ScarSupply from "@/views/ScarSupply";
 import SymbolCounts from "@/views/SymbolCounts";
 import BulkUpgrade from "@/views/BulkUpgrade";
+import BulkPreview from "@/views/BulkPreview";
 
 Vue.use(VueRouter)
 
@@ -76,6 +77,11 @@ const routes = [
     path: '/bulk-upgrade',
     name: 'Bulk Upgrade',
     component: BulkUpgrade
+  },
+  {
+    path: '/bulk-preview',
+    name: 'Bulk Preview',
+    component: BulkPreview
   }
 ]
 
