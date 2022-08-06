@@ -5,7 +5,7 @@
 
       <div class="container text-center">
         <div class="row">
-          <div class="col-3" v-for="(k,i) in keys">
+          <div class="col col-lg-3 col-xs-12" v-for="(k,i) in keys">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">{{k}}</h5>
