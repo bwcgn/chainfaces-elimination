@@ -12,7 +12,7 @@
                 <table>
                   <tbody>
                   <tr v-for="(attr, index) in data[k]">
-                    <td>{{index}}</td>
+                    <td><a :href="getLink(k, index)" target="_blank">{{index}}</a></td>
                     <td>{{attr}}</td>
                     <td>{{calcRarity(attr)}}</td>
                   </tr>
@@ -42,6 +42,11 @@ export default {
     methods: {
       calcRarity(i) {
         return (parseFloat(i) / this.total * 100).toFixed(4) + "%"
+      },
+      getLink(attr, index) {
+        let category = encodeURI(attr);
+        let value = encodeURI(index);
+        return `https://opensea.io/collection/chainfaces-hd?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=${category}&search[stringTraits][0][values][0]=${value}`
       }
     },
 }
