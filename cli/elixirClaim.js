@@ -9,10 +9,8 @@ web3.eth.getPastLogs({
     topics: ['0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62', '0x000000000000000000000000aad49b703e5cdaf92606733a5f2c952e98780d4d']
 })
     .then( (txs) => {
-        let claimed = txs.map((t) => web3.utils.toNumber(t.data))
+        return txs.map((t) => web3.utils.toNumber(t.data))
             .reduce((n, currentValue) => n+currentValue);
-        console.log(claimed);
-        return claimed;
     }).then((claimed) => {
             let claimable = web3.utils.toNumber(merkleRoot.tokenTotal);
             console.log(`Total Claimable ${claimable}\n`);
